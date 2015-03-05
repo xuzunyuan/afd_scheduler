@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	default-init-method="init" default-destroy-method="destroy"
+	default-autowire="byName"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="cancelNoPayOrderDataTask" class="com.afd.schedule.order.CancelNoPayOrder" />
+	
+	<bean id="cancelNoPayOrderSchedulerFactory" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers" ref="cancelNoPayOrdertriggers">
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+				<prop key="org.quartz.threadPool.threadCount">1</prop>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="cancelNoPayOrdertriggers" class="java.util.ArrayList" lazy-init="false">
+		<constructor-arg>
+			<list>
+		 		<ref bean="cancelNoPayOrderTrigger" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cancelNoPayOrderTaskSchedule"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cancelNoPayOrderDataTask" />
+		<property name="targetMethod" value="cancelOrder" />
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<bean id="cancelNoPayOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cancelNoPayOrderTaskSchedule" />
+		<property name="cronExpression">
+			<!-- 每隔1小时执行一次 -->
+			<value>0 0 * * * ?</value>
+		</property>
+	</bean>
+</beans>

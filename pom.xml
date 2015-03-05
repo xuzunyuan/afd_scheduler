@@ -4,12 +4,20 @@
   <artifactId>afd_scheduler</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <parent>
+ <parent>
 		<groupId>com.afd</groupId>
 		<artifactId>afd_parent</artifactId>
 		<relativePath>../afd_parent</relativePath>
 		<version>1.0</version>
 	</parent>
+	<dependencies>
+	    <!-- quartz begin -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		  	<artifactId>quartz</artifactId>
+		</dependency>
+		<!-- quartz end -->
+	</dependencies>
   <build>
     <finalName>afd_scheduler</finalName>
   </build>
