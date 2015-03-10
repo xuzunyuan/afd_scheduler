@@ -130,14 +130,14 @@ public class BrandShowScheduleService implements IBrandShowScheduleService {
 			JobDataMap dataMap = arg0.getJobDetail().getJobDataMap();
 
 			int brandShowId = dataMap.getInt("brandShowId");
-			String endDate = dataMap.getString("endDate");
+			String startDate = dataMap.getString("startDate");
 
-			System.out.println("停止特卖 || brandShowId:" + brandShowId
-					+ "|| endDate:" + endDate + "  执行！");
+			System.out.println("启动特卖 || brandShowId:" + brandShowId
+					+ "|| startDate:" + startDate + "  执行！");
 
 			try {
-				SpringContextUtil.getBean(IBrandShowService.class).endBrandSow(
-						brandShowId);
+				SpringContextUtil.getBean(IBrandShowService.class)
+						.startBrandShow(brandShowId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -152,14 +152,14 @@ public class BrandShowScheduleService implements IBrandShowScheduleService {
 			JobDataMap dataMap = arg0.getJobDetail().getJobDataMap();
 
 			int brandShowId = dataMap.getInt("brandShowId");
-			String startDate = dataMap.getString("startDate");
+			String endDate = dataMap.getString("endDate");
 
-			System.out.println("启动特卖 || brandShowId:" + brandShowId
-					+ "|| startDate:" + startDate + "  执行！");
+			System.out.println("停止特卖 || brandShowId:" + brandShowId
+					+ "|| endDate:" + endDate + "  执行！");
 
 			try {
-				SpringContextUtil.getBean(IBrandShowService.class)
-						.startBrandShow(brandShowId);
+				SpringContextUtil.getBean(IBrandShowService.class).endBrandSow(
+						brandShowId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
