@@ -23,7 +23,13 @@
 		  	<artifactId>quartz</artifactId>
 		</dependency>
 		<!-- quartz end -->
+		<dependency>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>corba-driver</artifactId>
+		  <version>1.0.0</version>
+	</dependency>
 	</dependencies>
+	
   <build>
     <finalName>afd_scheduler</finalName>
   </build>
